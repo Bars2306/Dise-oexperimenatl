@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Optimización del Rendimiento de Pelotas Deportivas mediante Análisis Multifactorial de Rebote</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Trabajo final de quarto_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Trabajo final de quarto_files/libs/quarto-html/quarto.js"></script>
+<script src="Trabajo final de quarto_files/libs/quarto-html/popper.min.js"></script>
+<script src="Trabajo final de quarto_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Trabajo final de quarto_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Trabajo final de quarto_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Trabajo final de quarto_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Trabajo final de quarto_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Trabajo final de quarto_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Trabajo final de quarto_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="Trabajo final de quarto_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="Trabajo final de quarto_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="Trabajo final de quarto_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="Trabajo final de quarto_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="Trabajo final de quarto_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="Trabajo final de quarto_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="Trabajo final de quarto_files/libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="Trabajo final de quarto_files/libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="Trabajo final de quarto_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="Trabajo final de quarto_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="header-section-number">1</span> Introducción</a></li>
+  <li><a href="#objetivo-general" id="toc-objetivo-general" class="nav-link" data-scroll-target="#objetivo-general"><span class="header-section-number">2</span> Objetivo General</a>
+  <ul class="collapse">
+  <li><a href="#objetivos-específicos" id="toc-objetivos-específicos" class="nav-link" data-scroll-target="#objetivos-específicos"><span class="header-section-number">2.1</span> Objetivos Específicos</a></li>
+  </ul></li>
+  <li><a href="#factores-y-niveles" id="toc-factores-y-niveles" class="nav-link" data-scroll-target="#factores-y-niveles"><span class="header-section-number">3</span> Factores y Niveles</a>
+  <ul class="collapse">
+  <li><a href="#variable-respuesta" id="toc-variable-respuesta" class="nav-link" data-scroll-target="#variable-respuesta"><span class="header-section-number">3.1</span> Variable Respuesta</a></li>
+  <li><a href="#variables-fijas" id="toc-variables-fijas" class="nav-link" data-scroll-target="#variables-fijas"><span class="header-section-number">3.2</span> Variables Fijas</a></li>
+  <li><a href="#variables-controlables" id="toc-variables-controlables" class="nav-link" data-scroll-target="#variables-controlables"><span class="header-section-number">3.3</span> Variables Controlables</a></li>
+  <li><a href="#variables-no-controlables" id="toc-variables-no-controlables" class="nav-link" data-scroll-target="#variables-no-controlables"><span class="header-section-number">3.4</span> Variables No Controlables</a></li>
+  </ul></li>
+  <li><a href="#diseño-experimental" id="toc-diseño-experimental" class="nav-link" data-scroll-target="#diseño-experimental"><span class="header-section-number">4</span> Diseño Experimental</a></li>
+  <li><a href="#realización-del-experimento" id="toc-realización-del-experimento" class="nav-link" data-scroll-target="#realización-del-experimento"><span class="header-section-number">5</span> Realización del Experimento</a>
+  <ul class="collapse">
+  <li><a href="#tabla-resumen-de-factores" id="toc-tabla-resumen-de-factores" class="nav-link" data-scroll-target="#tabla-resumen-de-factores"><span class="header-section-number">5.1</span> Tabla Resumen de Factores</a></li>
+  <li><a href="#exploración-gráfica-mediante-diagramas-de-caja-boxplots" id="toc-exploración-gráfica-mediante-diagramas-de-caja-boxplots" class="nav-link" data-scroll-target="#exploración-gráfica-mediante-diagramas-de-caja-boxplots"><span class="header-section-number">5.2</span> Exploración gráfica mediante diagramas de caja (boxplots)</a></li>
+  <li><a href="#graficos-de-interacción" id="toc-graficos-de-interacción" class="nav-link" data-scroll-target="#graficos-de-interacción"><span class="header-section-number">5.3</span> Graficos de interacción</a></li>
+  </ul></li>
+  <li><a href="#modelo-de-efecto" id="toc-modelo-de-efecto" class="nav-link" data-scroll-target="#modelo-de-efecto"><span class="header-section-number">6</span> Modelo de efecto</a></li>
+  <li><a href="#modelo-de-regresión" id="toc-modelo-de-regresión" class="nav-link" data-scroll-target="#modelo-de-regresión"><span class="header-section-number">7</span> Modelo de Regresión</a></li>
+  <li><a href="#tabla-anova" id="toc-tabla-anova" class="nav-link" data-scroll-target="#tabla-anova"><span class="header-section-number">8</span> Tabla anova</a>
+  <ul class="collapse">
+  <li><a href="#evaulacion-de-residuos" id="toc-evaulacion-de-residuos" class="nav-link" data-scroll-target="#evaulacion-de-residuos"><span class="header-section-number">8.1</span> Evaulacion de residuos</a></li>
+  <li><a href="#validacion-del-modelo" id="toc-validacion-del-modelo" class="nav-link" data-scroll-target="#validacion-del-modelo"><span class="header-section-number">8.2</span> Validacion del modelo</a></li>
+  </ul></li>
+  <li><a href="#mejor-tratamiento" id="toc-mejor-tratamiento" class="nav-link" data-scroll-target="#mejor-tratamiento"><span class="header-section-number">9</span> Mejor tratamiento</a>
+  <ul class="collapse">
+  <li><a href="#replicas-necesarias-para-tener-una-potencia-del-90" id="toc-replicas-necesarias-para-tener-una-potencia-del-90" class="nav-link" data-scroll-target="#replicas-necesarias-para-tener-una-potencia-del-90"><span class="header-section-number">9.1</span> Replicas necesarias para tener una potencia del 90%</a></li>
+  <li><a href="#calcular-la-potencia-para-cada-factor" id="toc-calcular-la-potencia-para-cada-factor" class="nav-link" data-scroll-target="#calcular-la-potencia-para-cada-factor"><span class="header-section-number">9.2</span> Calcular la potencia para cada factor</a></li>
+  </ul></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones"><span class="header-section-number">10</span> conclusiones</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Optimización del Rendimiento de Pelotas Deportivas mediante Análisis Multifactorial de Rebote</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Juan Sebastian Barbosa Solano </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>#| echo: false</p>
+<p>#| include: false</p>
+<section id="introducción" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introducción</h1>
+<p>En la industria de artículos deportivos, la investigación y el desarrollo son fundamentales para ofrecer productos innovadores y de alta calidad que satisfagan las necesidades de los atletas y aficionados. Este trabajo se centra en un emocionante proyecto de investigación destinado a diseñar una nueva pelota deportiva que no solo brinde un rendimiento óptimo, sino que también promueva la práctica deportiva y el desarrollo de habilidades en los usuarios.</p>
+<p>Este experimento forma parte de los esfuerzos por innovar y crear productos que mejoren el desempeño y la experiencia de los deportistas. Al comprender cómo diferentes variables influyen en el rebote de una pelota, la empresa podrá diseñar productos más eficientes y funcionales que se destaquen en el mercado deportivo.</p>
+</section>
+<section id="objetivo-general" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Objetivo General</h1>
+<p>Diseñar una pelota deportiva de</p>
+<p>alto rendimiento y durabilidad mediante el estudio del efecto de diferentes variables en la altura de rebote, con el fin de mejorar el rendimiento de los atletas y promover la práctica deportiva.</p>
+<section id="objetivos-específicos" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="objetivos-específicos"><span class="header-section-number">2.1</span> Objetivos Específicos</h2>
+<ul>
+<li><p>Evaluar el impacto del material de la pelota (goma, espuma y plástico) en la altura de rebote sobre diferentes superficies, con el propósito de seleccionar el material más adecuado para cada disciplina deportiva.</p></li>
+<li><p>Investigar la relación entre la presión interna de la pelota y su altura de rebote, con el objetivo de optimizar el inflado de la pelota para lograr un rendimiento óptimo.</p></li>
+<li><p>Determinar la influencia del recubrimiento externo de la pelota (texturizado, liso, con relieves, etc.) en la altura de rebote sobre diferentes superficies, para mejorar el agarre y el control de la pelota durante el juego.</p></li>
+</ul>
+</section>
+</section>
+<section id="factores-y-niveles" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Factores y Niveles</h1>
+<section id="variable-respuesta" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="variable-respuesta"><span class="header-section-number">3.1</span> Variable Respuesta</h2>
+<p>Altura de Rebote: Medida en centímetros (la altura máxima que alcanza la pelota después de rebotar).</p>
+</section>
+<section id="variables-fijas" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="variables-fijas"><span class="header-section-number">3.2</span> Variables Fijas</h2>
+<ul>
+<li><p>Utilizar la misma técnica de lanzamiento para dejar caer la pelota (con un ángulo y fuerza constantes).</p></li>
+<li><p>Realizar el experimento en el mismo lugar con condiciones ambientales controladas.</p></li>
+<li><p>Usar una regla o dispositivo de medición preciso para medir la altura de rebote.</p></li>
+<li><p>Utilizar pelotas del mismo tamaño.</p></li>
+</ul>
+</section>
+<section id="variables-controlables" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="variables-controlables"><span class="header-section-number">3.3</span> Variables Controlables</h2>
+<ul>
+<li><p>Tipo de Superficie: Madera, Cemento, Pasto Sintético.</p></li>
+<li><p>Altura de Caída: 50 cm, 100 cm, 150 cm.</p></li>
+<li><p>Material de Pelota: Goma, Espuma, Plástico.</p></li>
+</ul>
+</section>
+<section id="variables-no-controlables" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="variables-no-controlables"><span class="header-section-number">3.4</span> Variables No Controlables</h2>
+<ul>
+<li><p>Variaciones menores en la técnica de lanzamiento.</p></li>
+<li><p>Imperfecciones en la superficie de rebote.</p></li>
+<li><p>Condiciones ambientales externas.</p></li>
+</ul>
+</section>
+</section>
+<section id="diseño-experimental" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Diseño Experimental</h1>
+<p>Tipo de Diseño: Factorial 3×3×3.</p>
+<p>Tratamientos: 27 tratamientos (3 niveles de tipo de superficie, 3 niveles de altura de caída, 3 niveles de tipo de pelota).</p>
+<p>Réplicas: Realizar 3 réplicas por tratamiento.</p>
+<p>Total de Observaciones: 3×3×3×3 = 81 observaciones.</p>
+</section>
+<section id="realización-del-experimento" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Realización del Experimento</h1>
+<ol type="1">
+<li><p>Seleccionar las tres superficies (Madera, Cemento, Pasto Sintético) y prepararlas para el experimento.</p></li>
+<li><p>Elegir las alturas de caída de la pelota (50 cm, 100 cm, 150 cm) y establecer la altura de cada plataforma de lanzamiento.</p></li>
+<li><p>Seleccionar las tres pelotas (Pelota de tenis, Pelota de ping-pong, Pelota de goma) y asegurarse de que estén en buenas condiciones para el experimento.</p></li>
+<li><p>Realizar todas las combinaciones posibles de los factores: dejar caer cada tipo de pelota desde cada altura de caída en cada tipo de superficie.</p></li>
+<li><p>Para cada combinación de factores, repetir el experimento dos veces para obtener datos replicados.</p></li>
+<li><p>Registrar la altura de rebote de cada pelota después de cada lanzamiento.<br>
+<br>
+</p></li>
+</ol>
+<section id="tabla-resumen-de-factores" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="tabla-resumen-de-factores"><span class="header-section-number">5.1</span> Tabla Resumen de Factores</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Tabla Resumen de Factores</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Factor</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Codificación</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Descripción</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Tipo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Material de Superficie</td>
+<td style="text-align: left;">Cemento (-1), Pasto Sintético (0), Madera (1)</td>
+<td style="text-align: left;">Tipo de superficie sobre la cual se realiza el experimento</td>
+<td style="text-align: left;">Categórico</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Altura de Caída</td>
+<td style="text-align: left;">50 cm (-1), 100 cm (0), 150 cm (1)</td>
+<td style="text-align: left;">Altura desde la cual se deja caer la pelota</td>
+<td style="text-align: left;">Numérico</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tipo de Pelota</td>
+<td style="text-align: left;">Plástico (0), Espuma (1), Goma (-1)</td>
+<td style="text-align: left;">Material de la pelota utilizada en el experimento</td>
+<td style="text-align: left;">Categórico</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="exploración-gráfica-mediante-diagramas-de-caja-boxplots" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="exploración-gráfica-mediante-diagramas-de-caja-boxplots"><span class="header-section-number">5.2</span> Exploración gráfica mediante diagramas de caja (boxplots)</h2>
+<p>Muestran la distribución de datos, sus cuartiles y posibles valores atípicos, facilitando la comparación entre diferentes grupos o categorías</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En general, la altura de rebote varía significativamente según el material de superficie y la altura de caída evaluados. Las superficies de madera y cemento muestran consistentemente alturas de rebote superiores en comparación con el pasto sintético. Es notable que la altura de rebote es más prominente con una altura de caída de 50 cm, particularmente en superficies de madera. Además, se observa un patrón consistente en todas las superficies evaluadas, donde las alturas de rebote decrecen de 50 cm a 150 cm y luego a 100 cm. Estos hallazgos sugieren que la combinación específica de material de superficie y altura de caída influye significativamente en la altura de rebote medida, proporcionando insights importantes para el diseño y la selección de superficies en contextos donde la rebote es crucial.</p>
+</section>
+<section id="graficos-de-interacción" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="graficos-de-interacción"><span class="header-section-number">5.3</span> Graficos de interacción</h2>
+<p>Los gráficos de interacción nos permiten visualizar cómo las variables predictoras (Material de Superficie, Altura de Caída, Tipo de Pelota) afectan la variable de respuesta (Altura de Rebote)</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="modelo-de-efecto" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Modelo de efecto</h1>
+<p><span class="math display">\[ Y_{ijkl} = \mu + \alpha_{i} + \beta_{j} + \gamma_{k} +(\alpha\beta)_{ij}+(\alpha\gamma)_{ik}  +(\beta\gamma)_{jk} +(\alpha\beta\gamma)_{ijk} + \varepsilon_{ijkl}   \]</span> <span class="math display">\[ i =1,2,3 \]</span> <span class="math display">\[ j = 1,2,3 \]</span> <span class="math display">\[ k = 1,2,3 \]</span> <span class="math display">\[ l = 1,2,3 \]</span> <span class="math display">\[ j = 1,2,3 \]</span> <span class="math display">\[ k = 1,2,3 \]</span> <span class="math display">\[ l = 1,2,3 \]</span></p>
+</section>
+<section id="modelo-de-regresión" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Modelo de Regresión</h1>
+<p><span class="math display">\[ Y_{i} = \beta_{0}+\beta_{1} (MAterialdelasuperficie_{i})+\beta_{2} (alturadecaida_{i})+\beta_{3} (tipodepelota_{i})+\beta_{4}(materialdelasuperfie_{i}*alturadecaida_{i})+\beta_{5}(materialdesuperficie_{i}*tipodepelota_{i})+\beta_{6}(alturadecaida_{i}*tipodepelota_{i}) + \beta_{7}(materialdesuperficie{i}*alturadecaida_{i}*Ttipodepelota_{i})  \]</span> <span class="math display">\[ i =1,2,3,..,81 \]</span></p>
+</section>
+<section id="tabla-anova" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Tabla anova</h1>
+<p>El análisis de varianza (ANOVA) es una técnica estadística utilizada para comparar las medias de tres o más grupos basándose en la variabilidad de sus observaciones. El objetivo principal del ANOVA es determinar si existen diferencias significativas entre las medias de los grupos. A continuación, se describe el procedimiento y los conceptos clave del ANOVA</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Tabla de ANOVA:"</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Resultados del ANOVA</caption>
+<colgroup>
+<col style="width: 65%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Effect</th>
+<th style="text-align: right;">Sum.Sq</th>
+<th style="text-align: right;">Mean.Sq</th>
+<th style="text-align: right;">F.value</th>
+<th style="text-align: left;">Pr..F.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Material de Superficie</code></td>
+<td style="text-align: right;">1185.35</td>
+<td style="text-align: right;">1185.35</td>
+<td style="text-align: right;">2.11</td>
+<td style="text-align: left;">0.150</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Altura de Caída (cm)</code></td>
+<td style="text-align: right;">11266.67</td>
+<td style="text-align: right;">11266.67</td>
+<td style="text-align: right;">20.08</td>
+<td style="text-align: left;">2.69e-05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Tipo de Pelota</code></td>
+<td style="text-align: right;">12150.00</td>
+<td style="text-align: right;">12150.00</td>
+<td style="text-align: right;">21.66</td>
+<td style="text-align: left;">1.42e-05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Material de Superficie</code>:<code>Altura de Caída (cm)</code></td>
+<td style="text-align: right;">66.69</td>
+<td style="text-align: right;">66.69</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: left;">0.731</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Material de Superficie</code>:<code>Tipo de Pelota</code></td>
+<td style="text-align: right;">7.11</td>
+<td style="text-align: right;">7.11</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: left;">0.911</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Altura de Caída (cm)</code>:<code>Tipo de Pelota</code></td>
+<td style="text-align: right;">529.00</td>
+<td style="text-align: right;">529.00</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: left;">0.335</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>Material de Superficie</code>:<code>Altura de Caída (cm)</code>:<code>Tipo de Pelota</code></td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: left;">0.973</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residuals</td>
+<td style="text-align: right;">40954.73</td>
+<td style="text-align: right;">561.02</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Dado que el modelo es significativo según el ANOVA, existe una relación estadísticamente significativa entre las variables predictoras y la variable de respuesta en el contexto del experimento.</p>
+<p>Altura de Caída y Tipo de Pelota: Ambas variables resultaron ser significativas en el modelo, indicando que tienen un impacto claro en la altura de rebote. Específicamente:</p>
+<p>Altura de Caída: A medida que la altura de caída aumenta, la altura de rebote tiende a disminuir. Este comportamiento es contrario a la intuición.</p>
+<p>Tipo de Pelota: El tipo de pelota utilizado afecta positivamente la altura de rebote. Diferentes tipos de pelotas tienen distintas propiedades físicas que influyen en la capacidad de rebote.</p>
+<p>Material de Superficie: Esta variable no mostró un efecto significativo en la altura de rebote dentro del contexto del modelo. Esto sugiere que, considerando las otras variables controladas (altura de caída y tipo de pelota), el tipo de superficie no influye de manera significativa en la altura de rebote.</p>
+<p>Interacciones: Las interacciones entre las variables independientes no resultaron significativas. Esto implica que las combinaciones específicas de altura de caída, tipo de pelota y material de superficie no tienen un efecto adicional o diferente sobre la altura de rebote, más allá del impacto individual de cada variable.</p>
+<section id="evaulacion-de-residuos" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="evaulacion-de-residuos"><span class="header-section-number">8.1</span> Evaulacion de residuos</h2>
+<p>Estos gráficos son herramientas diagnósticas esenciales para validar las suposiciones subyacentes de tu modelo de regresión lineal. Te ayudan a detectar problemas como no normalidad de los residuos, heterocedasticidad, y valores atípicos o puntos de alta influencia que podrían afectar la validez de tus resultados.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Trabajo-final-de-quarto_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Linealidad*: Hay indicios de no linealidad en el gráfico de residuos vs valores ajustados.</p>
+<p>Normalidad de Residuos*: Los residuos en su mayoría siguen una distribución normal, aunque hay algunos outliers.</p>
+<p>Heterocedasticidad*: Puede haber alguna heterocedasticidad, como se sugiere en el gráfico de escala-localización.</p>
+<p>*Puntos Influyentes: Hay varios puntos influyentes que podrían estar afectando el modelo de manera significativa.</p>
+</section>
+<section id="validacion-del-modelo" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="validacion-del-modelo"><span class="header-section-number">8.2</span> Validacion del modelo</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  residuos
+W = 0.85362, p-value = 1.873e-07</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  Altura de Rebote (cm) by Material de Superficie
+Kruskal-Wallis chi-squared = 6.2544, df = 2, p-value = 0.04384</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Kruskal-Wallis rank sum test
+
+data: x and group
+Kruskal-Wallis chi-squared = 6.2544, df = 2, p-value = 0.04
+
+                           Comparison of x by group                            
+                                 (Bonferroni)                                  
+Col Mean-|
+Row Mean |         -1          0
+---------+----------------------
+       0 |   2.499245
+         |    0.0187*
+         |
+       1 |   1.171521  -1.327724
+         |     0.3621     0.2764
+
+alpha = 0.05
+Reject Ho if p &lt;= alpha/2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$chi2
+[1] 6.254363
+
+$Z
+[1]  2.499246  1.171522 -1.327724
+
+$P
+[1] 0.006222896 0.120694609 0.092134589
+
+$P.adjusted
+[1] 0.01866869 0.36208383 0.27640377
+
+$comparisons
+[1] "-1 - 0" "-1 - 1" "0 - 1" </code></pre>
+</div>
+</div>
+<p>Normalidad de los Residuos:</p>
+<p>El test de Shapiro-Wilk indica que los residuos del modelo de regresión no siguen una distribución normal (p &lt; 0.05). Esto sugiere que el supuesto de normalidad de los residuos no se cumple, lo cual es importante para interpretar adecuadamente las pruebas estadísticas y las conclusiones derivadas del modelo de regresión. Es posible que se deban considerar métodos alternativos que no requieran la normalidad de los residuos o explorar transformaciones de los datos para mejorar la normalidad.</p>
+<p>Prueba de Kruskal-Wallis:</p>
+<p>La prueba indica que hay diferencias significativas en las distribuciones de las alturas de rebote entre al menos dos de los grupos de “Material de Superficie” (p = 0.04384). Esto implica que la mediana de la altura de rebote varía entre al menos dos tipos de superficies (por ejemplo, cemento y pasto sintético). Es recomendable explorar estas diferencias en detalle para entender cómo el material de la superficie afecta las alturas de rebote.</p>
+<p>Prueba de Dunn (ajustada por Bonferroni):</p>
+<p>Después de ajustar por múltiples comparaciones, se encontró que la diferencia en las alturas de rebote entre las superficies codificadas como -1 (cemento) y 0 (pasto sintético) es estadísticamente significativa (p = 0.0187). Sin embargo, no se encontraron diferencias significativas entre las comparaciones -1 vs 1 y 0 vs 1 después de la corrección de Bonferroni (p &gt; 0.05). Esto sugiere que mientras la diferencia específica entre cemento y pasto sintético es significativa, otras comparaciones no lo son.</p>
+<p>Razon para Continuar:</p>
+<p>Refinamiento del Análisis: A pesar de la falta de normalidad en los residuos, la prueba de Kruskal-Wallis y el test de Dunn proporcionan información valiosa sobre las diferencias entre los materiales de superficie en cuanto a las alturas de rebote. Este análisis puede ser crucial para entender qué superficies son más adecuadas para ciertos usos deportivos o recreativo</p>
+</section>
+</section>
+<section id="mejor-tratamiento" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Mejor tratamiento</h1>
+<p>Este análisis te proporciona una manera visual y cuantitativa de evaluar el mejor tratamiento (combinación de factores) para maximizar la altura de rebote de las pelotas. La combinación del ajuste del modelo, la predicción y la visualización interactiva te permite explorar de manera efectiva el espacio de los factores y tomar decisiones informadas basadas en los resultados del modelo de regresión</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-dd0741a5379a09c66e88" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-dd0741a5379a09c66e88">{"x":{"visdat":{"b106a937e1":["function () ","plotlyVisDat"]},"cur_data":"b106a937e1","attrs":{"b106a937e1":{"x":{},"y":{},"z":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"surface"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"scene":{"xaxis":{"title":"Material de Superficie"},"yaxis":{"title":"Altura de Caída (cm)"},"zaxis":{"title":"Altura de Rebote (cm)"}},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false,"displayModeBar":false},"data":[{"colorbar":{"title":"Altura_Rebote","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333333","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333333","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333333","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"x":[0,-1,1,0,-1,1,0,-1,1,0,-1,1,0,-1,1,0,-1,1,0,-1,1,0,-1,1,0,-1,1],"y":[0,0,0,1,1,1,-1,-1,-1,0,0,0,1,1,1,-1,-1,-1,0,0,0,1,1,1,-1,-1,-1],"z":[57.851851851851848,62.537037037037031,53.166666666666664,43.407407407407398,46.731481481481467,40.083333333333329,72.296296296296291,78.342592592592595,66.25,72.851851851851848,77.981481481481481,67.722222222222214,54.574074074074062,58.175925925925903,50.972222222222221,91.129629629629619,97.787037037037038,84.472222222222214,42.851851851851848,47.092592592592588,38.611111111111107,32.240740740740733,35.287037037037031,29.194444444444432,53.462962962962955,58.898148148148145,48.027777777777779],"type":"surface","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<section id="replicas-necesarias-para-tener-una-potencia-del-90" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="replicas-necesarias-para-tener-una-potencia-del-90"><span class="header-section-number">9.1</span> Replicas necesarias para tener una potencia del 90%</h2>
+<p>Para asegurar que el estudio tenga la capacidad de detectar diferencias significativas si existen, se llevará a cabo un análisis detallado para determinar el número adecuado de réplicas</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Balanced one-way analysis of variance power calculation 
+
+              k = 3
+              n = 210.1857
+              f = 0.142
+      sig.level = 0.05
+          power = 0.9
+
+NOTE: n is number in each group</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Número de réplicas necesarias para Material de Superficie: 211 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Balanced one-way analysis of variance power calculation 
+
+              k = 3
+              n = 24.9402
+              f = 0.42
+      sig.level = 0.05
+          power = 0.9
+
+NOTE: n is number in each group</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Número de réplicas necesarias para Altura de Caída: 25 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Balanced one-way analysis of variance power calculation 
+
+              k = 3
+              n = 128.3434
+              f = 0.182
+      sig.level = 0.05
+          power = 0.9
+
+NOTE: n is number in each group</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Número de réplicas necesarias para Tipo de Pelota: 129 </code></pre>
+</div>
+</div>
+<p>1-Material de Superficie: Se calculó que se necesitan aproximadamente 211 réplicas por grupo para detectar un efecto de tamaño moderado (f = 0.142) con una potencia del 90% y un nivel de significancia del 5%</p>
+<p>2-Altura de Caída: Se determinó que se requieren alrededor de 25 réplicas por grupo para detectar un efecto de tamaño moderado (f = 0.42) con una potencia del 90% y un nivel de significancia del 5%</p>
+<p>3-Tipo de Pelota: Se estimó que se necesitan aproximadamente 129 réplicas por grupo para detectar un efecto de tamaño moderado (f = 0.182) con una potencia del 90% y un nivel de significancia del 5%</p>
+</section>
+<section id="calcular-la-potencia-para-cada-factor" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="calcular-la-potencia-para-cada-factor"><span class="header-section-number">9.2</span> Calcular la potencia para cada factor</h2>
+<p>Calcular la potencia estadística para cada factor en un análisis de varianza (ANOVA) es crucial para evaluar si el experimento tiene suficiente sensibilidad para detectar efectos significativos. La potencia de una prueba estadística es la probabilidad de rechazar la hipótesis nula cuando ésta es falsa, es decir, la capacidad de la prueba para detectar un efecto si realmente existe.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Potencia alcanzada para cada factor:</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Material de Superficie: 0.05869682 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Altura de Caída: 0.1316009 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tipo de Pelota: 0.06438852 </code></pre>
+</div>
+</div>
+<p>Material de Superficie: La potencia alcanzada para detectar diferencias significativas entre los grupos de materiales de superficie es de aproximadamente 0.0587. Esto significa que hay una baja probabilidad de detectar un efecto real si existe un efecto de tamaño pequeño a moderado (f = 0.142).</p>
+<p>Altura de Caída: La potencia alcanzada para detectar diferencias significativas entre los grupos de alturas de caída es de aproximadamente 0.1316. Esta potencia también es relativamente baja, indicando que hay una probabilidad moderada de detectar un efecto real si existe un tamaño de efecto de 0.42.</p>
+<p>Tipo de Pelota: La potencia alcanzada para detectar diferencias significativas entre los tipos de pelota es de aproximadamente 0.0644. Esta potencia es similarmente baja, lo que sugiere que hay una baja probabilidad de detectar un efecto real si existe un tamaño de efecto de 0.182.</p>
+</section>
+</section>
+<section id="conclusiones" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> conclusiones</h1>
+<ul>
+<li><p>Contrariamente a las expectativas, el tipo de superficie no mostró un efecto significativo en la altura de rebote en este estudio particular. Esto sugiere que, dentro del rango estudiado y controlando otros factores, la elección del material de la superficie puede no ser crucial para controlar la altura de rebote de las pelotas.</p></li>
+<li><p>La altura de caída mostró ser un factor crucial en la altura de rebote. A medida que aumenta la altura de caída, la altura de rebote tiende a disminuir. Este hallazgo puede ser útil para diseñar espacios deportivos o recreativos donde se desee controlar la altura del rebote de las pelotas.</p></li>
+<li><p>El tipo de pelota demostró tener un impacto significativo en la altura y variabilidad del rebote. Por ejemplo, las pelotas de goma mostraron una altura de rebote más alta y más variable en comparación con las de plástico y espuma. Esto sugiere que la elección del tipo de pelota es crucial dependiendo de los objetivos específicos del uso (por ejemplo, deportes versus actividades recreativas).</p></li>
+<li><p>Aunque se exploraron las interacciones entre estos factores, no se encontraron efectos significativos adicionales más allá de los efectos individuales de cada factor. Esto indica que, en el contexto de este estudio, los efectos de material de superficie, altura de caída y tipo de pelota pueden considerarse independientes en términos de influencia en la altura de rebote.</p></li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

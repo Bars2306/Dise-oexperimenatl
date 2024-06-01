@@ -1,0 +1,504 @@
+#\| echo: false
+
+#\| include: false
+
+---
+title: "Optimización del Rendimiento de Pelotas Deportivas mediante Análisis Multifactorial de Rebote"
+author:
+  - name: "Juan Sebastian Barbosa Solano"
+ 
+lang : es
+format:
+  html:
+    toc: true 
+    toc-location: left
+editor: visual
+theme: Publication-quality
+number-sections: true
+---
+
+```{r}
+#| echo: false
+#| include: false
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(gridExtra)
+library(car)
+library(olsrr)
+library(lmtest)
+library(pwr)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+library(dunn.test)  # Cargar el paquete dunn.test
+library(FSA)
+install.packages("dunn.test")
+
+
+```
+
+
+
+```{r}
+#| echo: false
+# Cargar librerías necesarias
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(readxl)  # Cargar el paquete readxl necesario para read_excel
+
+# Definir la ruta del archivo Excel
+ruta_archivo <- "C:/Users/juseb/OneDrive/Documentos/gifthub/Diseño.rebote.xlsx"
+
+# Cargar datos desde el archivo Excel
+datos <- read_excel(ruta_archivo)
+# Identificar y remover outliers usando boxplot.stats
+outliers <- boxplot.stats(datos$`Altura de Rebote (cm)`) $out
+
+# Si hay outliers, se eliminan de los datos
+if (length(outliers) > 0) {
+  datos_limpios <- datos[!datos$`Altura de Rebote (cm)` %in% outliers, ]
+} else {
+  datos_limpios <- datos
+}
+```
+
+# Introducción
+
+En la industria de artículos deportivos, la investigación y el desarrollo son fundamentales para ofrecer productos innovadores y de alta calidad que satisfagan las necesidades de los atletas y aficionados. Este trabajo se centra en un emocionante proyecto de investigación destinado a diseñar una nueva pelota deportiva que no solo brinde un rendimiento óptimo, sino que también promueva la práctica deportiva y el desarrollo de habilidades en los usuarios.
+
+Este experimento forma parte de los esfuerzos por innovar y crear productos que mejoren el desempeño y la experiencia de los deportistas. Al comprender cómo diferentes variables influyen en el rebote de una pelota, la empresa podrá diseñar productos más eficientes y funcionales que se destaquen en el mercado deportivo.
+
+# Objetivo General
+
+Diseñar una pelota deportiva de
+
+alto rendimiento y durabilidad mediante el estudio del efecto de diferentes variables en la altura de rebote, con el fin de mejorar el rendimiento de los atletas y promover la práctica deportiva.
+
+## Objetivos Específicos
+
+-   Evaluar el impacto del material de la pelota (goma, espuma y plástico) en la altura de rebote sobre diferentes superficies, con el propósito de seleccionar el material más adecuado para cada disciplina deportiva.
+
+-   Investigar la relación entre la presión interna de la pelota y su altura de rebote, con el objetivo de optimizar el inflado de la pelota para lograr un rendimiento óptimo.
+
+-   Determinar la influencia del recubrimiento externo de la pelota (texturizado, liso, con relieves, etc.) en la altura de rebote sobre diferentes superficies, para mejorar el agarre y el control de la pelota durante el juego.
+
+# Factores y Niveles
+
+## Variable Respuesta
+
+Altura de Rebote: Medida en centímetros (la altura máxima que alcanza la pelota después de rebotar).
+
+## Variables Fijas
+
+-   Utilizar la misma técnica de lanzamiento para dejar caer la pelota (con un ángulo y fuerza constantes).
+
+-   Realizar el experimento en el mismo lugar con condiciones ambientales controladas.
+
+-   Usar una regla o dispositivo de medición preciso para medir la altura de rebote.
+
+-   Utilizar pelotas del mismo tamaño.
+
+## Variables Controlables
+
+-   Tipo de Superficie: Madera, Cemento, Pasto Sintético.
+
+-   Altura de Caída: 50 cm, 100 cm, 150 cm.
+
+-   Material de Pelota: Goma, Espuma, Plástico.
+
+## Variables No Controlables
+
+-   Variaciones menores en la técnica de lanzamiento.
+
+-   Imperfecciones en la superficie de rebote.
+
+-   Condiciones ambientales externas.
+
+# Diseño Experimental
+
+Tipo de Diseño: Factorial 3×3×3.
+
+Tratamientos: 27 tratamientos (3 niveles de tipo de superficie, 3 niveles de altura de caída, 3 niveles de tipo de pelota).
+
+Réplicas: Realizar 3 réplicas por tratamiento.
+
+Total de Observaciones: 3×3×3×3 = 81 observaciones.
+
+# Realización del Experimento
+
+1.  Seleccionar las tres superficies (Madera, Cemento, Pasto Sintético) y prepararlas para el experimento.
+
+2.  Elegir las alturas de caída de la pelota (50 cm, 100 cm, 150 cm) y establecer la altura de cada plataforma de lanzamiento.
+
+3.  Seleccionar las tres pelotas (Pelota de tenis, Pelota de ping-pong, Pelota de goma) y asegurarse de que estén en buenas condiciones para el experimento.
+
+4.  Realizar todas las combinaciones posibles de los factores: dejar caer cada tipo de pelota desde cada altura de caída en cada tipo de superficie.
+
+5.  Para cada combinación de factores, repetir el experimento dos veces para obtener datos replicados.
+
+6.  Registrar la altura de rebote de cada pelota después de cada lanzamiento.\
+    \
+
+## Tabla Resumen de Factores
+```{r}
+#| echo: false
+# Crear datos para la tabla resumen de factores
+factores <- data.frame(
+  Factor = c("Material de Superficie", "Altura de Caída", "Tipo de Pelota"),
+  Codificación = c("Cemento (-1), Pasto Sintético (0), Madera (1)", 
+                   "50 cm (-1), 100 cm (0), 150 cm (1)", 
+                   "Plástico (0), Espuma (1), Goma (-1)"),
+  Descripción = c("Tipo de superficie sobre la cual se realiza el experimento", 
+                  "Altura desde la cual se deja caer la pelota", 
+                  "Material de la pelota utilizada en el experimento"),
+  Tipo = c("Categórico", "Numérico", "Categórico")
+)
+
+# Crear tabla usando kableExtra para visualización elegante
+library(kableExtra)
+tabla_factores <- kable(
+  factores,
+  col.names = c("Factor", "Codificación", "Descripción", "Tipo"),
+  caption = "Tabla Resumen de Factores"
+) %>%
+  kable_styling(full_width = FALSE, font_size = 12)
+
+# Mostrar tabla
+tabla_factores
+
+```
+## Exploración gráfica mediante diagramas de caja (boxplots)
+Muestran la distribución de datos, sus cuartiles y posibles valores atípicos, facilitando la comparación entre diferentes grupos o categorías
+```{r}
+#| echo: false
+# Gráfico de cajas para Material de Superficie
+ggplot(datos_limpios, aes(x = factor(`Material de Superficie`), y = `Altura de Rebote (cm)`, fill = factor(`Material de Superficie`))) +
+  geom_boxplot() +
+  labs(x = "Material de Superficie", y = "Altura de Rebote (cm)", title = "Altura de Rebote por Material de Superficie") +
+  theme_minimal()
+
+# Gráfico de cajas para Altura de Caída
+ggplot(datos_limpios, aes(x = factor(`Altura de Caída (cm)`), y = `Altura de Rebote (cm)`, fill = factor(`Altura de Caída (cm)`))) +
+  geom_boxplot() +
+  labs(x = "Altura de Caída (cm)", y = "Altura de Rebote (cm)", title = "Altura de Rebote por Altura de Caída") +
+  theme_minimal()
+
+# Gráfico de cajas para Tipo de Pelota
+ggplot(datos_limpios, aes(x = factor(`Tipo de Pelota`), y = `Altura de Rebote (cm)`, fill = factor(`Tipo de Pelota`))) +
+  geom_boxplot() +
+  labs(x = "Tipo de Pelota", y = "Altura de Rebote (cm)", title = "Altura de Rebote por Tipo de Pelota") +
+  theme_minimal()
+```
+
+En general, la altura de rebote varía significativamente según el material de superficie y la altura de caída evaluados. Las superficies de madera y cemento muestran consistentemente alturas de rebote superiores en comparación con el pasto sintético. Es notable que la altura de rebote es más prominente con una altura de caída de 50 cm, particularmente en superficies de madera. Además, se observa un patrón consistente en todas las superficies evaluadas, donde las alturas de rebote decrecen de 50 cm a 150 cm y luego a 100 cm. Estos hallazgos sugieren que la combinación específica de material de superficie y altura de caída influye significativamente en la altura de rebote medida, proporcionando insights importantes para el diseño y la selección de superficies en contextos donde la rebote es crucial.
+
+
+## Graficos de interacción
+Los gráficos de interacción nos permiten visualizar cómo las variables predictoras (Material de Superficie, Altura de Caída, Tipo de Pelota) afectan la variable de respuesta (Altura de Rebote)
+
+```{r}
+#| echo: false
+# Gráfico de interacción entre Material de Superficie y Altura de Caída, para cada Tipo de Pelota
+interaction.plot(
+  x.factor = datos_limpios$`Material de Superficie`,
+  trace.factor = datos_limpios$`Altura de Caída (cm)`,
+  response = datos_limpios$`Altura de Rebote (cm)`,
+  type = "b",  # Tipo de gráfico (b para líneas con puntos)
+  fixed = TRUE,  # Fijar el orden de los factores (Material de Superficie y Altura de Caída)
+  xlab = "Material de Superficie",
+  ylab = "Altura de Rebote (cm)",
+  main = "Interacción: Material de Superficie y Altura de Caída, por Tipo de Pelota"
+)
+
+# Gráfico de interacción entre Material de Superficie y Tipo de Pelota, para cada Altura de Caída
+interaction.plot(
+  x.factor = datos_limpios$`Material de Superficie`,
+  trace.factor = datos_limpios$`Tipo de Pelota`,
+  response = datos_limpios$`Altura de Rebote (cm)`,
+  type = "b",  # Tipo de gráfico (b para líneas con puntos)
+  fixed = TRUE,  # Fijar el orden de los factores (Material de Superficie y Tipo de Pelota)
+  xlab = "Material de Superficie",
+  ylab = "Altura de Rebote (cm)",
+  main = "Interacción: Material de Superficie y Tipo de Pelota, por Altura de Caída"
+)
+
+# Gráfico de interacción entre Altura de Caída y Tipo de Pelota, para cada Material de Superficie
+interaction.plot(
+  x.factor = datos_limpios$`Altura de Caída (cm)`,
+  trace.factor = datos_limpios$`Tipo de Pelota`,
+  response = datos_limpios$`Altura de Rebote (cm)`,
+  type = "b",  # Tipo de gráfico (b para líneas con puntos)
+  fixed = TRUE,  # Fijar el orden de los factores (Altura de Caída y Tipo de Pelota)
+  xlab = "Altura de Caída (cm)",
+  ylab = "Altura de Rebote (cm)",
+  main = "Interacción: Altura de Caída y Tipo de Pelota, por Material de Superficie"
+)
+```
+# Modelo de efecto
+
+$$ Y_{ijkl} = \mu + \alpha_{i} + \beta_{j} + \gamma_{k} +(\alpha\beta)_{ij}+(\alpha\gamma)_{ik}  +(\beta\gamma)_{jk} +(\alpha\beta\gamma)_{ijk} + \varepsilon_{ijkl}   $$ $$ i =1,2,3 $$ $$ j = 1,2,3 $$ $$ k = 1,2,3 $$ $$ l = 1,2,3 $$
+$$ j = 1,2,3 $$
+$$ k = 1,2,3 $$
+$$ l = 1,2,3 $$
+
+# Modelo de Regresión
+
+$$ Y_{i} = \beta_{0}+\beta_{1} (MAterialdelasuperficie_{i})+\beta_{2} (alturadecaida_{i})+\beta_{3} (tipodepelota_{i})+\beta_{4}(materialdelasuperfie_{i}*alturadecaida_{i})+\beta_{5}(materialdesuperficie_{i}*tipodepelota_{i})+\beta_{6}(alturadecaida_{i}*tipodepelota_{i}) + \beta_{7}(materialdesuperficie{i}*alturadecaida_{i}*Ttipodepelota_{i})  $$ $$ i =1,2,3,..,81 $$
+
+# Tabla anova
+El análisis de varianza (ANOVA) es una técnica estadística utilizada para comparar las medias de tres o más grupos basándose en la variabilidad de sus observaciones. El objetivo principal del ANOVA es determinar si existen diferencias significativas entre las medias de los grupos. A continuación, se describe el procedimiento y los conceptos clave del ANOVA
+```{r}
+#| echo: false
+# Cargar el paquete necesario
+library(knitr)
+
+# Ajuste del modelo de regresión lineal
+modelo_regresion <- lm(`Altura de Rebote (cm)` ~ `Material de Superficie` * `Altura de Caída (cm)` * `Tipo de Pelota`, data = datos_limpios)
+
+# Realizar ANOVA para obtener los efectos significativos
+anova_modelo <- anova(modelo_regresion)
+
+# Crear una tabla con los resultados del ANOVA
+tabla_anova <- data.frame(
+  Effect = rownames(anova_modelo),
+  `Sum Sq` = round(anova_modelo$`Sum Sq`, 2),
+  `Mean Sq` = round(anova_modelo$`Mean Sq`, 2),
+  `F value` = round(anova_modelo$`F value`, 2),
+  `Pr(>F)` = format.pval(anova_modelo$`Pr(>F)`, digits = 3)
+)
+
+
+
+# Mostrar las tablas de resumen usando kable
+print("Tabla de ANOVA:")
+kable(tabla_anova, caption = "Resultados del ANOVA")
+
+
+
+
+```
+Dado que el modelo es significativo según el ANOVA, existe una relación estadísticamente significativa entre las variables predictoras y la variable de respuesta en el contexto del experimento.
+
+Altura de Caída y Tipo de Pelota: Ambas variables resultaron ser significativas en el modelo, indicando que tienen un impacto claro en la altura de rebote. Específicamente:
+
+Altura de Caída: A medida que la altura de caída aumenta, la altura de rebote tiende a disminuir. Este comportamiento es contrario a la intuición.
+
+Tipo de Pelota: El tipo de pelota utilizado afecta positivamente la altura de rebote. Diferentes tipos de pelotas tienen distintas propiedades físicas que influyen en la capacidad de rebote.
+
+Material de Superficie: Esta variable no mostró un efecto significativo en la altura de rebote dentro del contexto del modelo. Esto sugiere que, considerando las otras variables controladas (altura de caída y tipo de pelota), el tipo de superficie no influye de manera significativa en la altura de rebote.
+
+Interacciones: Las interacciones entre las variables independientes no resultaron significativas. Esto implica que las combinaciones específicas de altura de caída, tipo de pelota y material de superficie no tienen un efecto adicional o diferente sobre la altura de rebote, más allá del impacto individual de cada variable.
+
+## Evaulacion de residuos
+
+Estos gráficos son herramientas diagnósticas esenciales para validar las suposiciones subyacentes de tu modelo de regresión lineal. Te ayudan a detectar problemas como no normalidad de los residuos, heterocedasticidad, y valores atípicos o puntos de alta influencia que podrían afectar la validez de tus resultados.
+```{r}
+#| echo: false
+# Obtener los residuos estandarizados del modelo
+residuos <- rstandard(modelo_regresion)
+# Gráfico Q-Q de los residuos
+qqnorm(residuos, main = "Gráfico Q-Q de los Residuos")
+qqline(residuos)
+
+# Gráfico de residuos vs predictoras
+par(mfrow = c(2, 2))  # Dividir la ventana gráfica en 2x2
+plot(modelo_regresion)
+```
+Linealidad*: Hay indicios de no linealidad en el gráfico de residuos vs valores ajustados.
+
+Normalidad de Residuos*: Los residuos en su mayoría siguen una distribución normal, aunque hay algunos outliers.
+
+Heterocedasticidad*: Puede haber alguna heterocedasticidad, como se sugiere en el gráfico de escala-localización.
+
+*Puntos Influyentes: Hay varios puntos influyentes que podrían estar afectando el modelo de manera significativa.
+
+## Validacion del modelo
+
+```{r}
+#| echo: false
+# Test de Shapiro-Wilk para la normalidad de los residuos
+shapiro_test <- shapiro.test(residuos)
+print(shapiro_test)
+
+
+
+#Prueba de Kruskal-Wallis
+kruskal.test(`Altura de Rebote (cm)` ~ `Material de Superficie`, data = datos_limpios)
+
+
+# Realizar la prueba de Dunn
+dunn_test <- dunn.test(datos_limpios$`Altura de Rebote (cm)`, datos_limpios$`Material de Superficie`, method = "bonferroni")
+
+# Mostrar los resultados
+print(dunn_test)
+
+
+```
+
+Normalidad de los Residuos:
+
+El test de Shapiro-Wilk indica que los residuos del modelo de regresión no siguen una distribución normal (p < 0.05). Esto sugiere que el supuesto de normalidad de los residuos no se cumple, lo cual es importante para interpretar adecuadamente las pruebas estadísticas y las conclusiones derivadas del modelo de regresión. Es posible que se deban considerar métodos alternativos que no requieran la normalidad de los residuos o explorar transformaciones de los datos para mejorar la normalidad.
+
+Prueba de Kruskal-Wallis:
+
+La prueba indica que hay diferencias significativas en las distribuciones de las alturas de rebote entre al menos dos de los grupos de "Material de Superficie" (p = 0.04384). Esto implica que la mediana de la altura de rebote varía entre al menos dos tipos de superficies (por ejemplo, cemento y pasto sintético). Es recomendable explorar estas diferencias en detalle para entender cómo el material de la superficie afecta las alturas de rebote.
+
+Prueba de Dunn (ajustada por Bonferroni):
+
+Después de ajustar por múltiples comparaciones, se encontró que la diferencia en las alturas de rebote entre las superficies codificadas como -1 (cemento) y 0 (pasto sintético) es estadísticamente significativa (p = 0.0187). Sin embargo, no se encontraron diferencias significativas entre las comparaciones -1 vs 1 y 0 vs 1 después de la corrección de Bonferroni (p > 0.05). Esto sugiere que mientras la diferencia específica entre cemento y pasto sintético es significativa, otras comparaciones no lo son.
+
+Razon para Continuar:
+
+Refinamiento del Análisis: A pesar de la falta de normalidad en los residuos, la prueba de Kruskal-Wallis y el test de Dunn proporcionan información valiosa sobre las diferencias entre los materiales de superficie en cuanto a las alturas de rebote. Este análisis puede ser crucial para entender qué superficies son más adecuadas para ciertos usos deportivos o recreativo
+
+# Mejor tratamiento
+
+Este análisis te proporciona una manera visual y cuantitativa de evaluar el mejor tratamiento (combinación de factores) para maximizar la altura de rebote de las pelotas. La combinación del ajuste del modelo, la predicción y la visualización interactiva te permite explorar de manera efectiva el espacio de los factores y tomar decisiones informadas basadas en los resultados del modelo de regresión
+```{r}
+#| echo: false
+# Ajustar el modelo de regresión lineal múltiple
+modelo_regresion <- lm(`Altura de Rebote (cm)` ~ `Material de Superficie` * `Altura de Caída (cm)` * `Tipo de Pelota`, data = datos_limpios)
+
+# Crear datos de malla (mesh data) con todas las combinaciones posibles
+material_surface <- unique(datos_limpios$`Material de Superficie`)
+altura_caida <- unique(datos_limpios$`Altura de Caída (cm)`)
+tipo_pelota <- unique(datos_limpios$`Tipo de Pelota`)
+
+mesh_data <- expand.grid(`Material de Superficie` = material_surface, 
+                         `Altura de Caída (cm)` = altura_caida, 
+                         `Tipo de Pelota` = tipo_pelota)
+
+# Predecir valores de Altura de Rebote utilizando el modelo
+mesh_data$Altura_Rebote <- predict(modelo_regresion, newdata = mesh_data)
+
+# Cargar librerías necesarias para graficar
+library(plotly)
+
+# Crear el gráfico de superficie con plotly
+plot_ly(mesh_data, 
+        x = ~`Material de Superficie`, 
+        y = ~`Altura de Caída (cm)`, 
+        z = ~Altura_Rebote, 
+        type = "surface") %>%
+  layout(scene = list(
+    xaxis = list(title = "Material de Superficie"),
+    yaxis = list(title = "Altura de Caída (cm)"),
+    zaxis = list(title = "Altura de Rebote (cm)")
+  )) %>%
+  config(displayModeBar = FALSE)  # Para ocultar la barra de modo de visualización
+
+
+```
+
+
+## Replicas necesarias para tener una potencia del 90%
+
+Para asegurar que el estudio tenga la capacidad de detectar diferencias significativas si existen, se llevará a cabo un análisis detallado para determinar el número adecuado de réplicas
+
+```{r}
+#| echo: false
+
+
+# Cálculos de potencia para cada factor (Material de Superficie, Altura de Caída, Tipo de Pelota)
+potencia_material <- pwr.anova.test(
+  k = length(unique(datos_limpios$`Material de Superficie`)),
+  n = NULL,  # Esto se calculará
+  f = 0.142,  # Tamaño del efecto pequeño a moderado
+  sig.level = 0.05,
+  power = 0.9  # Potencia deseada del 90%
+)
+
+n_material <- ceiling(potencia_material$n)
+
+potencia_altura <- pwr.anova.test(
+  k = length(unique(datos_limpios$`Altura de Caída (cm)`)),
+  n = NULL,  # Esto se calculará
+  f = 0.42,  # Tamaño del efecto pequeño a moderado
+  sig.level = 0.05,
+  power = 0.9  # Potencia deseada del 90%
+)
+
+n_altura <- ceiling(potencia_altura$n)
+
+potencia_pelota <- pwr.anova.test(
+  k = length(unique(datos_limpios$`Tipo de Pelota`)),
+  n = NULL,  # Esto se calculará
+  f = 0.182,  # Tamaño del efecto pequeño a moderado
+  sig.level = 0.05,
+  power = 0.9  # Potencia deseada del 90%
+)
+
+n_pelota <- ceiling(potencia_pelota$n)
+
+# Mostrar resultados
+potencia_material
+cat("Número de réplicas necesarias para Material de Superficie:", n_material, "\n")
+
+potencia_altura
+cat("Número de réplicas necesarias para Altura de Caída:", n_altura, "\n")
+
+potencia_pelota
+cat("Número de réplicas necesarias para Tipo de Pelota:", n_pelota, "\n")
+```
+1-Material de Superficie: Se calculó que se necesitan aproximadamente 211 réplicas por grupo para detectar un efecto de tamaño moderado (f = 0.142) con una potencia del 90% y un nivel de significancia del 5%
+
+2-Altura de Caída: Se determinó que se requieren alrededor de 25 réplicas por grupo para detectar un efecto de tamaño moderado (f = 0.42) con una potencia del 90% y un nivel de significancia del 5%
+
+3-Tipo de Pelota: Se estimó que se necesitan aproximadamente 129 réplicas por grupo para detectar un efecto de tamaño moderado (f = 0.182) con una potencia del 90% y un nivel de significancia del 5%
+
+
+## Calcular la potencia para cada factor
+
+Calcular la potencia estadística para cada factor en un análisis de varianza (ANOVA) es crucial para evaluar si el experimento tiene suficiente sensibilidad para detectar efectos significativos. La potencia de una prueba estadística es la probabilidad de rechazar la hipótesis nula cuando ésta es falsa, es decir, la capacidad de la prueba para detectar un efecto si realmente existe.
+
+```{r}
+#| echo: false
+# Calcular la potencia para cada factor
+
+potencia_material <- pwr.anova.test(
+  k = length(unique(datos_limpios$`Material de Superficie`)),
+  n = 3,  
+  f = 0.142,  # Tamaño del efecto pequeño a moderado
+  sig.level = 0.05  # Nivel de significancia
+)
+
+
+# Potencia para Altura de Caída
+potencia_altura <- pwr.anova.test(
+  k = length(unique(datos_limpios$`Altura de Caída (cm)`)),
+  n = 3,  
+  f = 0.42,  
+  sig.level = 0.05
+)
+
+# Potencia para Tipo de Pelota
+potencia_pelota <- pwr.anova.test(
+  k = length(unique(datos_limpios$`Tipo de Pelota`)),
+  n = 3,  
+  f = 0.182,  
+  sig.level = 0.05
+)
+
+# Mostrar resultados
+cat("Potencia alcanzada para cada factor:\n")
+cat("Material de Superficie:", potencia_material$power, "\n")
+cat("Altura de Caída:", potencia_altura$power, "\n")
+cat("Tipo de Pelota:", potencia_pelota$power, "\n")
+```
+Material de Superficie: La potencia alcanzada para detectar diferencias significativas entre los grupos de materiales de superficie es de aproximadamente 0.0587. Esto significa que hay una baja probabilidad de detectar un efecto real si existe un efecto de tamaño pequeño a moderado (f = 0.142).
+
+Altura de Caída: La potencia alcanzada para detectar diferencias significativas entre los grupos de alturas de caída es de aproximadamente 0.1316. Esta potencia también es relativamente baja, indicando que hay una probabilidad moderada de detectar un efecto real si existe un tamaño de efecto de 0.42.
+
+Tipo de Pelota: La potencia alcanzada para detectar diferencias significativas entre los tipos de pelota es de aproximadamente 0.0644. Esta potencia es similarmente baja, lo que sugiere que hay una baja probabilidad de detectar un efecto real si existe un tamaño de efecto de 0.182.
+
+# conclusiones
+- Contrariamente a las expectativas, el tipo de superficie no mostró un efecto significativo en la altura de rebote en este estudio particular. Esto sugiere que, dentro del rango estudiado y controlando otros factores, la elección del material de la superficie puede no ser crucial para controlar la altura de rebote de las pelotas.
+
+- La altura de caída mostró ser un factor crucial en la altura de rebote. A medida que aumenta la altura de caída, la altura de rebote tiende a disminuir. Este hallazgo puede ser útil para diseñar espacios deportivos o recreativos donde se desee controlar la altura del rebote de las pelotas.
+
+- El tipo de pelota demostró tener un impacto significativo en la altura y variabilidad del rebote. Por ejemplo, las pelotas de goma mostraron una altura de rebote más alta y más variable en comparación con las de plástico y espuma. Esto sugiere que la elección del tipo de pelota es crucial dependiendo de los objetivos específicos del uso (por ejemplo, deportes versus actividades recreativas).
+
+- Aunque se exploraron las interacciones entre estos factores, no se encontraron efectos significativos adicionales más allá de los efectos individuales de cada factor. Esto indica que, en el contexto de este estudio, los efectos de material de superficie, altura de caída y tipo de pelota pueden considerarse independientes en términos de influencia en la altura de rebote.
